@@ -66,7 +66,7 @@ def put_meta(file, row):
     try:
         meta = subprocess.check_output(['pdftk', file, 'dump_data'])
         lines = meta.splitlines()
-        with open("files/metadata.info", 'wb') as info:
+        with open("Files/metadata.info", 'wb') as info:
             if (meta.find("InfoKey: Subject") == -1):
                 info.write("InfoBegin" + os.linesep + "InfoKey: Subject" + os.linesep + "InfoValue: " + subject + os.linesep)
             if (meta.find("InfoKey: Author") == -1):
@@ -85,9 +85,9 @@ def put_meta(file, row):
                 if (item.find("InfoKey: Keywords") != -1):
                     lines[j+1] = "InfoValue: " + keywords
                 info.write(item + os.linesep)
-        os.system('pdftk "' + file + '" cat output files/noxmp.pdf')
-        os.system('pdftk files/noxmp.pdf update_info files/metadata.info output "' + file + '"')
-        os.system('rm files/metadata.info files/noxmp.pdf')
+        os.system('pdftk "' + file + '" cat output Files/noxmp.pdf')
+        os.system('pdftk Files/noxmp.pdf update_info Files/metadata.info output "' + file + '"')
+        os.system('rm Files/metadata.info Files/noxmp.pdf')
     except:
         print "Could not process file " + file
 

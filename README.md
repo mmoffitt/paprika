@@ -30,7 +30,7 @@ First, clone this repository to get the paprika.py python script. Put this a dir
                     [IJCAI 2013] Subset Selection of Search Heuristics.pdf
                     ...
 
-(TODO: Talk about the PDFtk binaries)
+You'll also want to install [PDFtk](http://www.pdflabs.com/tools/pdftk-server/) so that you Paprika can read/write metadata in later steps.
 
 Building the Index
 ------------------

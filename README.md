@@ -60,6 +60,10 @@ Many of the above fields contain erroneous data. If you wish to search / export 
 | [AAAI 2013] Concurrent Inference Graphs.pdf    | updated  | Concurrent Inference Graphs     | AAAI 2013 | Daniel R. Schlegel | graphs   |
 | [AAAI 2013] Tools for Preference Reasoning.pdf | updated  | Tools for Preference Reasoning  | AAAI 2013 | Ying Zhu           | pref     |
 
+Save this file back to Files/Papers.csv and rerun paprika:
+
+    ./paprika.py
+
 Paprika will take note of any row where the _Modified_ date has been replaced by the word *updated*, and will write the new metadata *into the PDF itself* (iTunes does the same thing whenever you modify a song name / title). This way, you are free to delete the index at any time, as all the important data is self-contained in your raw PDFs.
 
 If you intend on modifying the metadata for hundreds of documents, you may wish to use [DBLP](http://dblp.uni-trier.de/db/) to get the author and title information. This can be imported into Excel with relatively little grunt work, and copied into the appropriate columns.

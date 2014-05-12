@@ -18,7 +18,7 @@ First, clone this repository to get the paprika.py python script. Put this a dir
     LIBRARY/                    Your entire library
         paprika.py              The paprika script
         Papers/                 All of your papers
-            AAAI/               A folder for each conference / journal to which you frequently submit papers.
+            AAAI/               A folder for each of your favorite conferences / journals
             DAC/
             ICCAD/
             IJCAI/

@@ -30,7 +30,7 @@ First, clone this repository to get the paprika.py python script. Put this a dir
                     [IJCAI 2013] Subset Selection of Search Heuristics.pdf
                     ...
 
-You'll also want to install [PDFtk](http://www.pdflabs.com/tools/pdftk-server/) so that you Paprika can read/write metadata in later steps.
+You'll also want to install [PDFtk](http://www.pdflabs.com/tools/pdftk-server/) so that Paprika can read/write metadata in later steps.
 
 Building the Index
 ------------------
@@ -48,10 +48,21 @@ Updating Metadata
 
 Few very PDFs (even those that come from reputable sources like IEEE and ACM) are appropriately labelled with metadata. Fortunately, you can update the metadata for several documents (in bulk!) using Paprika.  Simply open the Files/Papers.csv file in your favorite spreadsheet program (e.g., Microsoft Excel) and you'll see entries like the following:
 
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| File                                           | Modified | Title       | Subject | Author             | Keywords |
+| ---------------------------------------------- | -------- | ----------- | ------- | ------------------ | -------- |
+| [AAAI 2013] Concurrent Inference Graphs.pdf    | 3/14/15  | paper.dvi   | unknown | Dan                |          |
+| [AAAI 2013] Tools for Preference Reasoning.pdf | 3/14/15  | garbage.pdf | N/A     | Microsoft User     |          |
+
+Many of the above fields contain erroneous data. If you wish to search / export documents by these fields (as described in later sections), you can modify the data as follows:
+
+| File                                           | Modified | Title                           | Subject   | Author             | Keywords |
+| ---------------------------------------------- | -------- | ------------------------------- | --------- | ------------------ | -------- |
+| [AAAI 2013] Concurrent Inference Graphs.pdf    | updated  | Concurrent Inference Graphs     | AAAI 2013 | Daniel R. Schlegel | graphs   |
+| [AAAI 2013] Tools for Preference Reasoning.pdf | updated  | Tools for Preference Reasoning  | AAAI 2013 | Ying Zhu           | pref     |
+
+Paprika will take note of any row where the _Modified_ date has been replaced by the word *updated*, and will write the new metadata *into the PDF itself* (iTunes does the same thing whenever you modify a song name / title). This way, you are free to delete the index at any time, as all the important data is self-contained in your raw PDFs.
+
+If you intend on modifying the metadata for hundreds of documents, you may wish to use [DBLP](http://dblp.uni-trier.de/db/) to get the author and title information. This can be imported into Excel with relatively little grunt work, and copied into the appropriate columns.
 
 Renaming Documents
 ------------------
@@ -63,7 +74,7 @@ Exporting Subsets of Documents
 
 The biggest benefit of building the metadata index is that documents can be easily retrieved by title / author / subject / keywords. One option is to manually search the index for PDFs that match your requirements. This tends to be tedious, and 
 
-The preferred way is to export documents of interest a priori, so that at "read time" you are free to browse relevant PDFs in your collection. To do this, first create empty folders within three directories: Authors/, Topics/, and Subjects/. The struture will look as follows:
+The preferred way is to export documents of interest _a_ _priori_, so that at "read time" you are free to browse relevant PDFs in your collection. To do this, first create empty folders within three directories: Authors/, Topics/, and Subjects/. The struture will look as follows:
 
     LIBRARY/                    Your entire library
         paprika.py              The paprika script

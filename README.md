@@ -18,7 +18,7 @@ First, clone this repository to get the paprika.py python script. Put this a dir
     LIBRARY/                    Your entire library
         paprika.py              The paprika script
         Papers/                 All of your papers
-            AAAI/               A folder for each of your favorite conferences / journals
+            AAAI/               A folder for each of conference / journal in your collection
             DAC/
             ICCAD/
             IJCAI/
@@ -48,6 +48,11 @@ Updating Metadata
 
 Few very PDFs (even those that come from reputable sources like IEEE and ACM) are appropriately labelled with metadata. Fortunately, you can update the metadata for several documents (in bulk!) using Paprika.  Simply open the Files/Papers.csv file in your favorite spreadsheet program (e.g., Microsoft Excel) and you'll see entries like the following:
 
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
 Renaming Documents
 ------------------
 
@@ -56,7 +61,28 @@ Renaming Documents
 Exporting Subsets of Documents
 ------------------------------
 
-(TODO)
+The biggest benefit of building the metadata index is that documents can be easily retrieved by title / author / subject / keywords. One option is to manually search the index for PDFs that match your requirements. This tends to be tedious, and 
+
+The preferred way is to export documents of interest a priori, so that at "read time" you are free to browse relevant PDFs in your collection. To do this, first create empty folders within three directories: Authors/, Topics/, and Subjects/. The struture will look as follows:
+
+    LIBRARY/                    Your entire library
+        paprika.py              The paprika script
+        Papers/                 All of your papers
+        Authors/                Names of authors you want to follow
+            Michael D. Moffitt/ (Initially) empty folder
+            Richard E. Korf/    (Initially) empty folder
+        Keywords/               Tags for keywords or topics that interest you
+            cgra/               (Initially) empty folder
+            llvm/               (Initially) empty folder
+        Subjects/               Names of your favorite conferences or journals
+            ICAPS 2011/         (Initially) empty folder
+            IJCAI 2013/         (Initially) empty folder
+
+Then, run the the following command to create symbolic links from documents in the Papers/ directory to matching folders.
+
+    ./paprika.py --export
+
+The symlinks are tiny, so very little disk space is consumed in this process. You can then use another program (e.g., rsync) to synchonize the documents with DropBox or any other filesystem.
 
 Tips on Obtaining Documents
 ---------------------------

@@ -145,8 +145,8 @@ with open(index + 'new', 'wb') as csvfile:
                 author   = row[2]
             spamwriter.writerow([file] + [modified] + [subject] + [title] + [author])
 
-    os.system('mv ' + index + 'csv ' + index + 'bak')
-    os.system('mv ' + index + 'new ' + index + 'csv')
+os.system('mv ' + index + 'csv ' + index + 'bak')
+os.system('mv ' + index + 'new ' + index + 'csv')
 
 print time.ctime()
 

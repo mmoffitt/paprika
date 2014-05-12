@@ -14,7 +14,10 @@ print time.ctime()
 path = "Papers/"
 if (len(sys.argv) > 1):
     path = sys.argv[1]
-index = "Files/" + re.sub("/", ".", path)
+index = "Files/"
+if not os.path.exists(index):
+    os.makedirs(index)
+index += re.sub("/", ".", path)
 
 modifieds    = {}
 subjects     = {}
@@ -28,7 +31,7 @@ def get_meta(file):
     title   = ""
     author  = ""
     try:
-        meta = subprocess.check_output(['./bin/pdftk.exe', file, 'dump_data'])
+        meta = subprocess.check_output(['pdftk', file, 'dump_data'])
         lines = meta.splitlines()
         for j, item in enumerate(lines):
             if (item.find("InfoKey: Subject") != -1):
@@ -54,7 +57,7 @@ def put_meta(file, row):
     title   = row[1]
     author  = row[2]
     try:
-        meta = subprocess.check_output(['./bin/pdftk.exe', file, 'dump_data'])
+        meta = subprocess.check_output(['pdftk', file, 'dump_data'])
         lines = meta.splitlines()
         with open("files/metadata.info", 'wb') as info:
             if (meta.find("InfoKey: Subject") == -1):
@@ -71,8 +74,8 @@ def put_meta(file, row):
                 if (item.find("InfoKey: Title") != -1):
                     lines[j+1] = "InfoValue: " + title
                 info.write(item + os.linesep)
-        os.system('./bin/pdftk.exe "' + file + '" cat output files/noxmp.pdf')
-        os.system('./bin/pdftk.exe files/noxmp.pdf update_info files/metadata.info output "' + file + '"')
+        os.system('pdftk "' + file + '" cat output files/noxmp.pdf')
+        os.system('pdftk files/noxmp.pdf update_info files/metadata.info output "' + file + '"')
         os.system('rm files/metadata.info files/noxmp.pdf')
     except:
         print "Could not process file " + file
@@ -91,7 +94,7 @@ try:
             titles[file]    = row[3]
             authors[file]   = row[4]
 except:
-    print "Index not found"
+    print "Index not found, starting from scratch ..."
 
 # Go find all files in the path ... collect metadata for those modified
 # and Write back to CSV file

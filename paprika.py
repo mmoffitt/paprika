@@ -23,13 +23,15 @@ modifieds    = {}
 subjects     = {}
 titles       = {}
 authors      = {}
+keywords     = {}
 
 # Function to scrape metadata from a file
 
 def get_meta(file):
-    subject = ""
-    title   = ""
-    author  = ""
+    subject  = ""
+    title    = ""
+    author   = ""
+    keywords = ""
     try:
         meta = subprocess.check_output(['pdftk', file, 'dump_data'])
         lines = meta.splitlines()
@@ -46,16 +48,21 @@ def get_meta(file):
                 datum = lines[j+1]
                 datum = re.sub(r".*InfoValue: ", "", datum)
                 title = datum.rstrip()
+            if (item.find("InfoKey: Keywords") != -1):
+                datum = lines[j+1]
+                datum = re.sub(r".*InfoValue: ", "", datum)
+                keywords = datum.rstrip()
     except:
-        return ['.', '.', '.']
-    return [subject] + [title] + [author]
+        return ['.', '.', '.', "."]
+    return [subject] + [title] + [author] + [keywords]
 
 # Function to replace metadata in a file
 
 def put_meta(file, row):
-    subject = row[0]
-    title   = row[1]
-    author  = row[2]
+    subject  = row[0]
+    title    = row[1]
+    author   = row[2]
+    keywords = row[3]
     try:
         meta = subprocess.check_output(['pdftk', file, 'dump_data'])
         lines = meta.splitlines()
@@ -66,6 +73,8 @@ def put_meta(file, row):
                 info.write("InfoBegin" + os.linesep + "InfoKey: Author" + os.linesep + "InfoValue: " + author + os.linesep)
             if (meta.find("InfoKey: Title") == -1):
                 info.write("InfoBegin" + os.linesep + "InfoKey: Title" + os.linesep + "InfoValue: " + title + os.linesep)
+            if (meta.find("InfoKey: Keywords") == -1):
+                info.write("InfoBegin" + os.linesep + "InfoKey: Keywords" + os.linesep + "InfoValue: " + title + os.linesep)
             for j, item in enumerate(lines):
                 if (item.find("InfoKey: Subject") != -1):
                     lines[j+1] = "InfoValue: " + subject
@@ -73,6 +82,8 @@ def put_meta(file, row):
                     lines[j+1] = "InfoValue: " + author
                 if (item.find("InfoKey: Title") != -1):
                     lines[j+1] = "InfoValue: " + title
+                if (item.find("InfoKey: Keywords") != -1):
+                    lines[j+1] = "InfoValue: " + keywords
                 info.write(item + os.linesep)
         os.system('pdftk "' + file + '" cat output files/noxmp.pdf')
         os.system('pdftk files/noxmp.pdf update_info files/metadata.info output "' + file + '"')
@@ -87,12 +98,13 @@ try:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
         for row in spamreader:
             file = row[0]
-            while (len(row) < 5):
+            while (len(row) < 6):
                 row = row + ['']
             modifieds[file] = row[1]
             subjects[file]  = row[2]
             titles[file]    = row[3]
             authors[file]   = row[4]
+            keywords[file]  = row[5]
 except:
     print "Index not found, starting from scratch ..."
 
@@ -126,24 +138,27 @@ with open(index + 'new', 'wb') as csvfile:
                 continue
             if (file in modifieds.keys() and modifieds[file].find("update") != -1):
                 print "writing " + file
-                row = [subjects[file]] + [titles[file]] + [authors[file]]
+                row = [subjects[file]] + [titles[file]] + [authors[file]] + [keywords[file]]
                 put_meta(file, row)
             mtime = os.path.getmtime(file)
             modified    = time.ctime(mtime)
             subject = ""
             title = ""
             author = ""
+            keyword = ""
             if (file in modifieds.keys() and modified == modifieds[file]):
                 subject  = subjects[file]
                 title    = titles[file]
                 author   = authors[file]
+                keyword  = keywords[file]
             else:
                 print "reading " + file
                 row = get_meta(file)
                 subject  = row[0]
                 title    = row[1]
                 author   = row[2]
-            spamwriter.writerow([file] + [modified] + [subject] + [title] + [author])
+                keyword  = row[3]
+            spamwriter.writerow([file] + [modified] + [subject] + [title] + [author] + [keyword])
 
 os.system('mv ' + index + 'csv ' + index + 'bak')
 os.system('mv ' + index + 'new ' + index + 'csv')

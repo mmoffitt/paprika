@@ -78,7 +78,7 @@ Exporting Subsets of Documents
 
 The biggest benefit of building the metadata index is that documents can be easily retrieved by title / author / subject / keywords. One option is to manually search the index for PDFs that match your requirements. This tends to be tedious, and 
 
-The preferred way is to export documents of interest _a_ _priori_, so that at "read time" you are free to browse relevant PDFs in your collection. To do this, first create empty folders within three directories: Authors/, Topics/, and Subjects/. The struture will look as follows:
+The preferred way is to export documents of interest _a_ _priori_, so that at "read time" you are free to browse relevant PDFs in your collection. To maintain these "smart playlists," first create empty folders within three directories: Authors/, Topics/, and Subjects/. The struture will look as follows:
 
     LIBRARY/                    Your entire library
         paprika.py              The paprika script

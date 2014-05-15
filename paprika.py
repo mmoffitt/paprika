@@ -94,7 +94,7 @@ def put_meta(file, row):
 # Read in CSV file
 
 try:
-    with open(index + 'csv', 'rb') as csvfile:
+    with open(index + 'csv', 'rU') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
         for row in spamreader:
             file = row[0]
@@ -105,8 +105,8 @@ try:
             titles[file]    = row[3]
             authors[file]   = row[4]
             keywords[file]  = row[5]
-except:
-    print "Index not found, starting from scratch ..."
+except Exception as e:
+    print "Index not found, starting from scratch ...", e
 
 # Go find all files in the path ... collect metadata for those modified
 # and Write back to CSV file
